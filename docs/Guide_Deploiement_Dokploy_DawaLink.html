@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide de Déploiement DawaLink avec Dokploy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+        h1 {
+            color: #6366f1;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+        h2 {
+            color: #6366f1;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #6366f1;
+            font-size: 18px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #4f46e5;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        .logo {
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .center {
+            text-align: center;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: #6366f1;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        .command {
+            color: #569cd6;
+        }
+        .comment {
+            color: #6a9955;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .box {
+            background-color: #f0f0ff;
+            border-left: 4px solid #6366f1;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .danger-box {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .step-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .step-card:hover {
+            border-color: #6366f1;
+        }
+        .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .step-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            display: inline;
+        }
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            margin: 15px 0;
+        }
+        .toc {
+            background: linear-gradient(135deg, #f8f8ff 0%, #f0f0ff 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0ff;
+        }
+        .toc h3 {
+            margin-top: 0;
+            color: #6366f1;
+        }
+        .toc ul {
+            margin-bottom: 0;
+            list-style: none;
+            margin-left: 0;
+        }
+        .toc li {
+            padding: 5px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .toc li:last-child {
+            border-bottom: none;
+        }
+        .toc a {
+            color: #333;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            color: #6366f1;
+        }
+        .toc .step-num {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: #6366f1;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        .comparison-table th {
+            background: #28a745;
+        }
+        .time-badge {
+            background: #28a745;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+        .click-path {
+            background: #e8e8ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .click-path span {
+            background: #6366f1;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin: 0 5px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+        .env-var {
+            background: #2d2d2d;
+            color: #9cdcfe;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        @media print {
+            body { padding: 20px; }
+            pre { font-size: 11px; }
+            h2 { page-break-after: avoid; }
+            .box, .warning-box, .danger-box, .success-box, .step-card { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">🚀</div>
+    <h1>Guide de Déploiement avec Dokploy</h1>
+    <p class="subtitle">DawaLink - Installation simplifiée sur VPS Octenium</p>
+    
+    <div class="center">
+        <span class="badge">✨ Méthode Facile - Sans Commandes Complexes</span>
+    </div>
+
+    <!-- Intro -->
+    <div class="highlight-box">
+        <h3>🎯 Pourquoi ce guide est différent ?</h3>
+        <p>Avec Dokploy, vous gérez tout via une <strong>interface web</strong>.<br>
+        Plus besoin de taper des dizaines de commandes Linux !</p>
+        <p style="margin-top: 15px; font-size: 24px;">⏱️ Temps estimé : <strong>30 minutes</strong></p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>📋 Les 10 Étapes du Déploiement</h3>
+        <ul>
+            <li><span class="step-num">1</span> <a href="#step1">Connexion au VPS</a> <span class="time-badge">5 min</span></li>
+            <li><span class="step-num">2</span> <a href="#step2">Installation de Dokploy</a> <span class="time-badge">3 min</span></li>
+            <li><span class="step-num">3</span> <a href="#step3">Premier accès au Dashboard</a> <span class="time-badge">2 min</span></li>
+            <li><span class="step-num">4</span> <a href="#step4">Création du Projet</a> <span class="time-badge">2 min</span></li>
+            <li><span class="step-num">5</span> <a href="#step5">Création de la Base MongoDB</a> <span class="time-badge">3 min</span></li>
+            <li><span class="step-num">6</span> <a href="#step6">Déploiement du Backend</a> <span class="time-badge">5 min</span></li>
+            <li><span class="step-num">7</span> <a href="#step7">Déploiement du Frontend</a> <span class="time-badge">5 min</span></li>
+            <li><span class="step-num">8</span> <a href="#step8">Configuration du Domaine</a> <span class="time-badge">3 min</span></li>
+            <li><span class="step-num">9</span> <a href="#step9">Activation HTTPS (SSL)</a> <span class="time-badge">2 min</span></li>
+            <li><span class="step-num">10</span> <a href="#step10">Vérification Finale</a> <span class="time-badge">5 min</span></li>
+        </ul>
+    </div>
+
+    <!-- Prerequisites -->
+    <h2>📦 Avant de Commencer</h2>
+    
+    <div class="box">
+        <div class="box-title">Ce dont vous avez besoin :</div>
+        <table>
+            <tr>
+                <th>Élément</th>
+                <th>Description</th>
+                <th>Où l'obtenir</th>
+            </tr>
+            <tr>
+                <td>🖥️ VPS Octenium</td>
+                <td>VPS Advanced (4GB RAM)</td>
+                <td>octenium.com</td>
+            </tr>
+            <tr>
+                <td>🌐 Adresse IP</td>
+                <td>Ex: 192.168.1.100</td>
+                <td>Email d'Octenium</td>
+            </tr>
+            <tr>
+                <td>🔑 Mot de passe root</td>
+                <td>Pour accéder au serveur</td>
+                <td>Email d'Octenium</td>
+            </tr>
+            <tr>
+                <td>💻 PuTTY</td>
+                <td>Pour se connecter en SSH</td>
+                <td>putty.org (gratuit)</td>
+            </tr>
+            <tr>
+                <td>📁 Code DawaLink</td>
+                <td>Sur GitHub ou en local</td>
+                <td>Je vous le fournis</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- STEP 1 -->
+    <h2 id="step1">Étape 1 : Connexion au VPS</h2>
+    
+    <div class="step-card">
+        <span class="step-number">1</span>
+        <span class="step-title">Ouvrir PuTTY et se connecter</span>
+        
+        <h3>Sur Windows :</h3>
+        <ol>
+            <li>Ouvrez <strong>PuTTY</strong></li>
+            <li>Dans <code>Host Name</code>, entrez : <strong>VOTRE_IP_SERVEUR</strong></li>
+            <li>Port : <code>22</code></li>
+            <li>Cliquez <strong>Open</strong></li>
+            <li>Login : <code>root</code></li>
+            <li>Entrez votre mot de passe (il ne s'affiche pas, c'est normal)</li>
+        </ol>
+
+        <h3>Sur Mac/Linux :</h3>
+        <pre><code>ssh root@VOTRE_IP_SERVEUR</code></pre>
+
+        <div class="success-box">
+            <div class="box-title">✅ Connexion réussie si vous voyez :</div>
+            <pre><code>root@ubuntu:~#</code></pre>
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <h2 id="step2" class="page-break">Étape 2 : Installation de Dokploy</h2>
+    
+    <div class="step-card">
+        <span class="step-number">2</span>
+        <span class="step-title">Une seule commande à exécuter</span>
+        
+        <div class="highlight-box">
+            <h3>🎯 LA commande magique</h3>
+            <p>Copiez et collez cette commande, puis appuyez sur Entrée :</p>
+        </div>
+
+        <pre><code>curl -sSL https://dokploy.com/install.sh | sh</code></pre>
+
+        <div class="box">
+            <div class="box-title">⏳ Attendez environ 2-3 minutes...</div>
+            <p>L'installation va :</p>
+            <ul>
+                <li>Installer Docker automatiquement</li>
+                <li>Configurer Dokploy</li>
+                <li>Démarrer tous les services</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <div class="box-title">✅ Installation terminée quand vous voyez :</div>
+            <pre><code>Congratulations! Dokploy is now installed.
+Access the panel at: http://VOTRE_IP:3000</code></pre>
+        </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <h2 id="step3">Étape 3 : Premier Accès au Dashboard</h2>
+    
+    <div class="step-card">
+        <span class="step-number">3</span>
+        <span class="step-title">Accéder à l'interface Dokploy</span>
+        
+        <h3>3.1 Ouvrir le navigateur</h3>
+        <p>Dans votre navigateur web, allez à :</p>
+        <div class="click-path">
+            http://<strong>VOTRE_IP_SERVEUR</strong>:3000
+        </div>
+        <p><em>Exemple : http://192.168.1.100:3000</em></p>
+
+        <h3>3.2 Créer le compte administrateur</h3>
+        <p>Remplissez le formulaire :</p>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>votre@email.com</td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td>Un mot de passe fort (min. 8 caractères)</td>
+            </tr>
+        </table>
+
+        <div class="warning-box">
+            <div class="box-title">⚠️ Important</div>
+            <p>Notez bien ces identifiants ! Vous en aurez besoin pour accéder au dashboard.</p>
+        </div>
+
+        <div class="success-box">
+            <div class="box-title">✅ Vous êtes maintenant sur le Dashboard Dokploy !</div>
+        </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <h2 id="step4">Étape 4 : Création du Projet</h2>
+    
+    <div class="step-card">
+        <span class="step-number">4</span>
+        <span class="step-title">Créer un nouveau projet DawaLink</span>
+        
+        <h3>Navigation dans le Dashboard :</h3>
+        <div class="click-path">
+            <span>Projects</span> → <span>+ Create Project</span>
+        </div>
+
+        <h3>Remplir les informations :</h3>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Project Name</td>
+                <td><code>dawalink</code></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td><code>Marketplace B2B Pharmaceutique</code></td>
+            </tr>
+        </table>
+
+        <p>Cliquez sur <strong>Create</strong></p>
+
+        <div class="success-box">
+            <div class="box-title">✅ Projet créé !</div>
+            <p>Vous allez maintenant voir le projet "dawalink" dans la liste.</p>
+        </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <h2 id="step5" class="page-break">Étape 5 : Création de la Base MongoDB</h2>
+    
+    <div class="step-card">
+        <span class="step-number">5</span>
+        <span class="step-title">Ajouter MongoDB au projet</span>
+        
+        <h3>5.1 Ouvrir le projet</h3>
+        <div class="click-path">
+            Cliquez sur le projet <span>dawalink</span>
+        </div>
+
+        <h3>5.2 Ajouter une base de données</h3>
+        <div class="click-path">
+            <span>+ Create Service</span> → <span>Database</span> → <span>MongoDB</span>
+        </div>
+
+        <h3>5.3 Configurer MongoDB</h3>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><code>dawalink-db</code></td>
+            </tr>
+            <tr>
+                <td>Database Name</td>
+                <td><code>dawalink</code></td>
+            </tr>
+            <tr>
+                <td>Database User</td>
+                <td><code>dawalink_user</code></td>
+            </tr>
+            <tr>
+                <td>Database Password</td>
+                <td><code>VotreMotDePasseSecurise123!</code></td>
+            </tr>
+        </table>
+
+        <div class="warning-box">
+            <div class="box-title">📝 NOTEZ CES INFORMATIONS !</div>
+            <p>Vous aurez besoin de ces identifiants pour connecter le backend.</p>
+        </div>
+
+        <p>Cliquez sur <strong>Create</strong></p>
+
+        <h3>5.4 Récupérer l'URL de connexion MongoDB</h3>
+        <p>Après création, cliquez sur <code>dawalink-db</code>, puis allez dans l'onglet <strong>Environment</strong>.</p>
+        <p>Vous verrez une URL comme :</p>
+        <pre><code>mongodb://dawalink_user:VotreMotDePasseSecurise123!@dawalink-db:27017/dawalink</code></pre>
+        
+        <div class="box">
+            <div class="box-title">📋 Copiez cette URL !</div>
+            <p>Elle sera utilisée à l'étape suivante.</p>
+        </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <h2 id="step6">Étape 6 : Déploiement du Backend (FastAPI)</h2>
+    
+    <div class="step-card">
+        <span class="step-number">6</span>
+        <span class="step-title">Déployer l'API Python</span>
+        
+        <h3>6.1 Créer le service Backend</h3>
+        <div class="click-path">
+            <span>+ Create Service</span> → <span>Application</span>
+        </div>
+
+        <h3>6.2 Configurer le service</h3>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><code>dawalink-backend</code></td>
+            </tr>
+            <tr>
+                <td>Source</td>
+                <td><strong>Git</strong> (ou Upload si pas de GitHub)</td>
+            </tr>
+        </table>
+
+        <h3>6.3 Si vous utilisez GitHub :</h3>
+        <div class="click-path">
+            <span>Provider</span> → <span>GitHub</span> → <span>Connect</span>
+        </div>
+        <p>Sélectionnez votre repository et la branche <code>main</code></p>
+        <p>Dans <strong>Build Path</strong>, entrez : <code>/backend</code></p>
+
+        <h3>6.4 Configurer les Variables d'Environnement</h3>
+        <div class="click-path">
+            Onglet <span>Environment</span>
+        </div>
+        
+        <p>Ajoutez ces variables :</p>
+        <pre><code>MONGO_URL=mongodb://dawalink_user:VotreMotDePasseSecurise123!@dawalink-db:27017/dawalink
+DB_NAME=dawalink
+JWT_SECRET=votre_cle_secrete_tres_longue_et_aleatoire_minimum_32_caracteres</code></pre>
+
+        <div class="box">
+            <div class="box-title">💡 Générer une clé JWT secrète</div>
+            <p>Allez sur : <code>https://generate-secret.vercel.app/32</code></p>
+        </div>
+
+        <h3>6.5 Configurer le Port</h3>
+        <div class="click-path">
+            Onglet <span>Advanced</span> → <span>Ports</span>
+        </div>
+        <table>
+            <tr>
+                <th>Port interne</th>
+                <th>Port exposé</th>
+            </tr>
+            <tr>
+                <td>8001</td>
+                <td>8001</td>
+            </tr>
+        </table>
+
+        <h3>6.6 Déployer</h3>
+        <div class="click-path">
+            Cliquez sur <span>Deploy</span>
+        </div>
+
+        <div class="success-box">
+            <div class="box-title">✅ Backend déployé quand le statut est : Running</div>
+        </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <h2 id="step7" class="page-break">Étape 7 : Déploiement du Frontend (React)</h2>
+    
+    <div class="step-card">
+        <span class="step-number">7</span>
+        <span class="step-title">Déployer l'interface utilisateur</span>
+        
+        <h3>7.1 Créer le service Frontend</h3>
+        <div class="click-path">
+            <span>+ Create Service</span> → <span>Application</span>
+        </div>
+
+        <h3>7.2 Configurer le service</h3>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><code>dawalink-frontend</code></td>
+            </tr>
+            <tr>
+                <td>Source</td>
+                <td><strong>Git</strong></td>
+            </tr>
+            <tr>
+                <td>Build Path</td>
+                <td><code>/</code> (racine)</td>
+            </tr>
+        </table>
+
+        <h3>7.3 Configurer les Variables d'Environnement</h3>
+        <div class="click-path">
+            Onglet <span>Environment</span>
+        </div>
+        
+        <pre><code>VITE_API_URL=https://api.dawalink.dz</code></pre>
+        <p><em>(Remplacez par votre domaine API ou l'IP du serveur)</em></p>
+
+        <h3>7.4 Configurer le Build</h3>
+        <div class="click-path">
+            Onglet <span>Advanced</span> → <span>Build</span>
+        </div>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Build Command</td>
+                <td><code>yarn install && yarn build</code></td>
+            </tr>
+            <tr>
+                <td>Output Directory</td>
+                <td><code>build</code></td>
+            </tr>
+        </table>
+
+        <h3>7.5 Configurer le Port</h3>
+        <table>
+            <tr>
+                <th>Port interne</th>
+                <th>Port exposé</th>
+            </tr>
+            <tr>
+                <td>80</td>
+                <td>80</td>
+            </tr>
+        </table>
+
+        <h3>7.6 Déployer</h3>
+        <div class="click-path">
+            Cliquez sur <span>Deploy</span>
+        </div>
+
+        <div class="success-box">
+            <div class="box-title">✅ Frontend déployé !</div>
+        </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <h2 id="step8">Étape 8 : Configuration du Domaine</h2>
+    
+    <div class="step-card">
+        <span class="step-number">8</span>
+        <span class="step-title">Connecter votre nom de domaine</span>
+        
+        <h3>8.1 Chez votre registrar de domaine</h3>
+        <p>Connectez-vous à votre compte (ex: GoDaddy, Namecheap, OVH) et configurez les DNS :</p>
+        
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>Nom</th>
+                <th>Valeur</th>
+                <th>TTL</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>@</td>
+                <td>VOTRE_IP_SERVEUR</td>
+                <td>3600</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>www</td>
+                <td>VOTRE_IP_SERVEUR</td>
+                <td>3600</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>api</td>
+                <td>VOTRE_IP_SERVEUR</td>
+                <td>3600</td>
+            </tr>
+        </table>
+
+        <h3>8.2 Dans Dokploy - Backend</h3>
+        <div class="click-path">
+            <span>dawalink-backend</span> → <span>Domains</span> → <span>Add Domain</span>
+        </div>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Domain</td>
+                <td><code>api.dawalink.dz</code></td>
+            </tr>
+        </table>
+
+        <h3>8.3 Dans Dokploy - Frontend</h3>
+        <div class="click-path">
+            <span>dawalink-frontend</span> → <span>Domains</span> → <span>Add Domain</span>
+        </div>
+        <table>
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            <tr>
+                <td>Domain</td>
+                <td><code>dawalink.dz</code></td>
+            </tr>
+            <tr>
+                <td>Domain 2</td>
+                <td><code>www.dawalink.dz</code></td>
+            </tr>
+        </table>
+
+        <div class="warning-box">
+            <div class="box-title">⏳ Propagation DNS</div>
+            <p>Les changements DNS peuvent prendre jusqu'à 24-48h pour se propager.</p>
+        </div>
+    </div>
+
+    <!-- STEP 9 -->
+    <h2 id="step9" class="page-break">Étape 9 : Activation HTTPS (SSL)</h2>
+    
+    <div class="step-card">
+        <span class="step-number">9</span>
+        <span class="step-title">Sécuriser avec un certificat SSL gratuit</span>
+        
+        <h3>Pour chaque service (Backend et Frontend) :</h3>
+        
+        <div class="click-path">
+            <span>Service</span> → <span>Domains</span> → Votre domaine → <span>Generate SSL</span>
+        </div>
+
+        <p>Dokploy génère automatiquement un certificat Let's Encrypt gratuit !</p>
+
+        <div class="success-box">
+            <div class="box-title">✅ HTTPS activé !</div>
+            <p>Votre site est maintenant accessible en <code>https://</code></p>
+        </div>
+
+        <div class="box">
+            <div class="box-title">🔄 Renouvellement automatique</div>
+            <p>Dokploy renouvelle automatiquement les certificats avant expiration.</p>
+        </div>
+    </div>
+
+    <!-- STEP 10 -->
+    <h2 id="step10">Étape 10 : Vérification Finale</h2>
+    
+    <div class="step-card">
+        <span class="step-number">10</span>
+        <span class="step-title">Tester que tout fonctionne</span>
+        
+        <h3>✅ Checklist de vérification</h3>
+        
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Comment vérifier</th>
+                <th>Résultat attendu</th>
+            </tr>
+            <tr>
+                <td>MongoDB</td>
+                <td>Dashboard Dokploy → dawalink-db → Status</td>
+                <td>🟢 Running</td>
+            </tr>
+            <tr>
+                <td>Backend API</td>
+                <td>Visitez <code>https://api.dawalink.dz/api/health</code></td>
+                <td><code>{"status":"ok"}</code></td>
+            </tr>
+            <tr>
+                <td>Frontend</td>
+                <td>Visitez <code>https://dawalink.dz</code></td>
+                <td>Page d'accueil DawaLink</td>
+            </tr>
+            <tr>
+                <td>Connexion</td>
+                <td>Essayez de vous connecter avec un compte test</td>
+                <td>Accès au dashboard</td>
+            </tr>
+        </table>
+
+        <h3>🧪 Comptes de Test</h3>
+        <table>
+            <tr>
+                <th>Rôle</th>
+                <th>Email</th>
+                <th>Mot de passe</th>
+            </tr>
+            <tr>
+                <td>Admin</td>
+                <td><code>admin@dawalink.dz</code></td>
+                <td><code>admin123456</code></td>
+            </tr>
+            <tr>
+                <td>Pharmacie</td>
+                <td><code>pharmacy1@madina.dz</code></td>
+                <td><code>pharmacy123</code></td>
+            </tr>
+            <tr>
+                <td>Fournisseur</td>
+                <td><code>supplier1@pharmaplus.dz</code></td>
+                <td><code>supplier123</code></td>
+            </tr>
+        </table>
+
+        <div class="warning-box">
+            <div class="box-title">🔐 Première chose à faire après déploiement :</div>
+            <p>Changez les mots de passe des comptes de test !</p>
+        </div>
+    </div>
+
+    <!-- Maintenance -->
+    <h2 class="page-break">📚 Guide de Maintenance</h2>
+
+    <h3>Commandes Utiles dans Dokploy</h3>
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Comment faire</th>
+        </tr>
+        <tr>
+            <td>Voir les logs</td>
+            <td>Service → Logs</td>
+        </tr>
+        <tr>
+            <td>Redémarrer un service</td>
+            <td>Service → Actions → Restart</td>
+        </tr>
+        <tr>
+            <td>Mettre à jour le code</td>
+            <td>Service → Deploy (après push sur GitHub)</td>
+        </tr>
+        <tr>
+            <td>Voir les statistiques</td>
+            <td>Service → Monitoring</td>
+        </tr>
+        <tr>
+            <td>Sauvegarder la BDD</td>
+            <td>dawalink-db → Backups → Create Backup</td>
+        </tr>
+    </table>
+
+    <h3>🔄 Déploiement Automatique (CI/CD)</h3>
+    <div class="box">
+        <div class="box-title">Activer le déploiement automatique :</div>
+        <div class="click-path">
+            Service → <span>Settings</span> → <span>Auto Deploy</span> → <span>Enable</span>
+        </div>
+        <p>Chaque <code>git push</code> déclenchera automatiquement un nouveau déploiement !</p>
+    </div>
+
+    <!-- Troubleshooting -->
+    <h2>🔧 Résolution de Problèmes</h2>
+
+    <table>
+        <tr>
+            <th>Problème</th>
+            <th>Solution</th>
+        </tr>
+        <tr>
+            <td>Service ne démarre pas</td>
+            <td>Vérifiez les logs (Service → Logs)</td>
+        </tr>
+        <tr>
+            <td>Erreur de connexion MongoDB</td>
+            <td>Vérifiez l'URL dans les variables d'environnement</td>
+        </tr>
+        <tr>
+            <td>Site non accessible</td>
+            <td>Vérifiez que les DNS sont bien configurés</td>
+        </tr>
+        <tr>
+            <td>Erreur 502 Bad Gateway</td>
+            <td>Le backend n'est pas démarré - redémarrez-le</td>
+        </tr>
+        <tr>
+            <td>SSL ne fonctionne pas</td>
+            <td>Attendez la propagation DNS (24-48h)</td>
+        </tr>
+    </table>
+
+    <!-- Final Summary -->
+    <div class="highlight-box" style="margin-top: 40px;">
+        <h3>🎉 Félicitations !</h3>
+        <p>Votre site DawaLink est maintenant en ligne !</p>
+        <p style="margin-top: 15px;">
+            <strong>Frontend :</strong> https://dawalink.dz<br>
+            <strong>API :</strong> https://api.dawalink.dz<br>
+            <strong>Dashboard Dokploy :</strong> http://VOTRE_IP:3000
+        </p>
+    </div>
+
+    <!-- Support -->
+    <div class="box" style="margin-top: 30px;">
+        <div class="box-title">📞 Besoin d'aide ?</div>
+        <p>Si vous rencontrez des problèmes :</p>
+        <ul>
+            <li>Prenez une capture d'écran de l'erreur</li>
+            <li>Copiez les logs du service concerné</li>
+            <li>Contactez-moi avec ces informations</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p><strong>Guide de Déploiement DawaLink avec Dokploy</strong></p>
+        <p>Version 1.0 - Février 2025</p>
+        <p>Marketplace B2B Pharmaceutique - Algérie</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommandation Hébergement VPS - DawaLink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #009689;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        h2 {
+            color: #009689;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #009689;
+            font-size: 20px;
+        }
+        h3 {
+            color: #333;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .logo {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #009689;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .highlight {
+            background-color: #e8f5f3 !important;
+            font-weight: bold;
+        }
+        .winner {
+            color: #009689;
+            font-weight: bold;
+        }
+        .check {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .warning {
+            color: #ffc107;
+        }
+        .box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #009689;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .box-title {
+            font-weight: bold;
+            color: #009689;
+            margin-bottom: 8px;
+        }
+        .recommendation-box {
+            background: linear-gradient(135deg, #009689 0%, #00786F 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .recommendation-box h3 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .price-highlight {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .analogy-box {
+            background-color: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .analogy-table {
+            background-color: white;
+        }
+        .analogy-table th {
+            background-color: #ffc107;
+            color: #333;
+        }
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        .steps {
+            counter-reset: step;
+        }
+        .steps li {
+            list-style: none;
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+        }
+        .steps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: #009689;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+        }
+        .cost-table th {
+            background-color: #28a745;
+        }
+        @media print {
+            body {
+                padding: 20px;
+            }
+            .recommendation-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">🏥💊</div>
+    <h1>Recommandation Hébergement VPS</h1>
+    <p class="subtitle">Projet DawaLink - Marketplace Pharmaceutique B2B</p>
+
+    <!-- Simple Explanation Section -->
+    <h2>🏠 Comprendre l'Hébergement en Termes Simples</h2>
+    
+    <div class="analogy-box">
+        <p><strong>Imaginez que votre site web DawaLink est une boutique...</strong></p>
+        
+        <table class="analogy-table" style="margin-top: 15px;">
+            <tr>
+                <th style="width: 35%;">Terme Technique</th>
+                <th>En Termes Simples</th>
+            </tr>
+            <tr>
+                <td><strong>VPS (Serveur)</strong></td>
+                <td>C'est comme <strong>louer un local</strong> pour votre boutique</td>
+            </tr>
+            <tr>
+                <td><strong>RAM (4 GB)</strong></td>
+                <td>La <strong>taille de votre comptoir</strong> - plus c'est grand, plus vous servez de clients en même temps</td>
+            </tr>
+            <tr>
+                <td><strong>CPU (2 vCores)</strong></td>
+                <td>Le <strong>nombre de vendeurs</strong> dans votre boutique</td>
+            </tr>
+            <tr>
+                <td><strong>Stockage (80 GB)</strong></td>
+                <td>La <strong>taille de votre entrepôt</strong> pour stocker vos produits</td>
+            </tr>
+            <tr>
+                <td><strong>Bande passante</strong></td>
+                <td>La <strong>largeur de la porte d'entrée</strong> - combien de clients peuvent entrer en même temps</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Comparison Section -->
+    <h2>📊 Comparaison des Offres VPS</h2>
+    
+    <p>Nous avons analysé deux fournisseurs algériens : <strong>Octenium</strong> et <strong>Hostarts</strong></p>
+
+    <table>
+        <tr>
+            <th>Spécification</th>
+            <th class="highlight">Octenium VPS Advanced</th>
+            <th>Hostarts Virtual Server S</th>
+        </tr>
+        <tr>
+            <td><strong>💰 Prix/mois</strong></td>
+            <td class="highlight winner">2 400 DA</td>
+            <td>4 900 DA</td>
+        </tr>
+        <tr>
+            <td><strong>🧠 RAM</strong></td>
+            <td class="highlight winner">4 GB</td>
+            <td>4 GB</td>
+        </tr>
+        <tr>
+            <td><strong>⚙️ CPU</strong></td>
+            <td class="highlight">2 vCores</td>
+            <td>3 vCores</td>
+        </tr>
+        <tr>
+            <td><strong>💾 Stockage</strong></td>
+            <td class="highlight winner">80 GB SSD NVMe</td>
+            <td>80 GB SSD RAID10</td>
+        </tr>
+        <tr>
+            <td><strong>📶 Trafic</strong></td>
+            <td class="highlight">Illimité</td>
+            <td>Illimité</td>
+        </tr>
+        <tr>
+            <td><strong>🔒 Anti-DDoS</strong></td>
+            <td class="highlight check">✅ Inclus</td>
+            <td class="check">✅ Inclus</td>
+        </tr>
+        <tr>
+            <td><strong>🇩🇿 Datacenter</strong></td>
+            <td class="highlight">Algérie</td>
+            <td>Alger</td>
+        </tr>
+        <tr>
+            <td><strong>💾 Sauvegardes</strong></td>
+            <td class="highlight warning">❓ À vérifier</td>
+            <td class="check">✅ Hebdomadaires</td>
+        </tr>
+    </table>
+
+    <!-- Winner Analysis -->
+    <h2>🏆 Analyse : Pourquoi Octenium Gagne ?</h2>
+
+    <table>
+        <tr>
+            <th>Critère</th>
+            <th>Gagnant</th>
+            <th>Raison</th>
+        </tr>
+        <tr>
+            <td>💰 Prix</td>
+            <td class="winner">🏆 Octenium</td>
+            <td>2 400 DA vs 4 900 DA <strong>(-51%)</strong></td>
+        </tr>
+        <tr>
+            <td>🚀 Type SSD</td>
+            <td class="winner">🏆 Octenium</td>
+            <td>NVMe (plus rapide) vs RAID10</td>
+        </tr>
+        <tr>
+            <td>💾 Sauvegardes</td>
+            <td>Hostarts</td>
+            <td>Incluses vs Non mentionné</td>
+        </tr>
+        <tr>
+            <td>📞 Support</td>
+            <td>Égalité</td>
+            <td>24/7 chez les deux</td>
+        </tr>
+    </table>
+
+    <!-- Recommendation -->
+    <div class="recommendation-box">
+        <h3>🏆 RECOMMANDATION FINALE</h3>
+        <p>Octenium VPS Advanced</p>
+        <div class="price-highlight">2 400 DA/mois</div>
+        <p>Économie de <strong>30 000 DA/an</strong> par rapport à Hostarts</p>
+    </div>
+
+    <!-- What You Get -->
+    <h2>✅ Ce que vous obtenez avec Octenium</h2>
+
+    <div class="box">
+        <div class="box-title">Inclus dans l'offre :</div>
+        <ul>
+            <li><strong>✅ Votre site DawaLink accessible 24h/24</strong></li>
+            <li><strong>✅ Rapide</strong> pour vos pharmacies et fournisseurs</li>
+            <li><strong>✅ Sécurisé</strong> contre les attaques (Anti-DDoS)</li>
+            <li><strong>✅ Hébergé en Algérie</strong> (respect des lois locales)</li>
+            <li><strong>✅ Évolutif</strong> - Possibilité d'ajouter l'intelligence artificielle plus tard</li>
+            <li><strong>✅ Accès complet</strong> - Contrôle total de votre serveur</li>
+        </ul>
+    </div>
+
+    <!-- Total Cost -->
+    <h2>💰 Coût Total Annuel Estimé</h2>
+
+    <table class="cost-table">
+        <tr>
+            <th>Dépense</th>
+            <th>Montant</th>
+        </tr>
+        <tr>
+            <td>Hébergement VPS (12 mois)</td>
+            <td><strong>28 800 DA</strong></td>
+        </tr>
+        <tr>
+            <td>Nom de domaine (.dz)</td>
+            <td>~2 000 DA</td>
+        </tr>
+        <tr>
+            <td>Certificat SSL (sécurité HTTPS)</td>
+            <td><strong>GRATUIT</strong> (Let's Encrypt)</td>
+        </tr>
+        <tr style="background-color: #d4edda;">
+            <td><strong>TOTAL ANNUEL</strong></td>
+            <td><strong>~30 800 DA/an</strong></td>
+        </tr>
+    </table>
+
+    <!-- Before Ordering -->
+    <h2>⚠️ À Vérifier Avant de Commander</h2>
+
+    <div class="box">
+        <div class="box-title">Contactez Octenium pour confirmer :</div>
+        <ol>
+            <li><strong>Sauvegardes</strong> - Sont-elles incluses ou payantes ?</li>
+            <li><strong>Snapshots</strong> - Possibilité de créer des sauvegardes manuelles ?</li>
+        </ol>
+    </div>
+
+    <!-- Next Steps -->
+    <h2>📞 Prochaines Étapes</h2>
+
+    <ul class="steps">
+        <li><strong>Commander</strong> le VPS Octenium Advanced sur <a href="https://octenium.com/serveur-vps-ssd">octenium.com</a></li>
+        <li><strong>Recevoir</strong> les accès à votre serveur (par email)</li>
+        <li><strong>Me transmettre</strong> les accès pour l'installation</li>
+        <li><strong>Installation complète</strong> de DawaLink sur votre serveur</li>
+        <li><strong>Votre site est en ligne !</strong> 🎉</li>
+    </ul>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><strong>Document préparé pour le projet DawaLink</strong></p>
+        <p>Marketplace B2B Pharmaceutique - Algérie</p>
+        <p>Date : Février 2025</p>
+    </div>
+
+</body>
+</html>

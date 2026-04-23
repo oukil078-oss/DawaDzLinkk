@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide de Déploiement DawaLink - VPS Octenium</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            padding: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+        h1 {
+            color: #009689;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+        h2 {
+            color: #009689;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #009689;
+            font-size: 18px;
+            page-break-after: avoid;
+        }
+        h3 {
+            color: #00786F;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+        .logo {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            color: #c7254e;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        .command {
+            color: #569cd6;
+        }
+        .comment {
+            color: #6a9955;
+        }
+        .string {
+            color: #ce9178;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #009689;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #009689;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .danger-box {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .box-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #009689;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+        .checklist li {
+            padding-left: 30px;
+            position: relative;
+        }
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+        }
+        .toc {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .toc h3 {
+            margin-top: 0;
+            color: #009689;
+        }
+        .toc ul {
+            margin-bottom: 0;
+        }
+        .toc a {
+            color: #333;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            color: #009689;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+        }
+        .page-break {
+            page-break-before: always;
+        }
+        @media print {
+            body { padding: 20px; }
+            pre { font-size: 10px; }
+            h2 { page-break-after: avoid; }
+            .box, .warning-box, .danger-box, .success-box { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">🚀🖥️</div>
+    <h1>Guide de Déploiement DawaLink</h1>
+    <p class="subtitle">Installation complète sur VPS Octenium (Ubuntu 22.04)</p>
+
+    <!-- Table of Contents -->
+    <div class="toc">
+        <h3>📋 Table des Matières</h3>
+        <ul>
+            <li><a href="#prereq">1. Prérequis</a></li>
+            <li><a href="#connexion">2. Connexion au VPS</a></li>
+            <li><a href="#securite">3. Sécurisation du Serveur</a></li>
+            <li><a href="#installation">4. Installation des Logiciels</a></li>
+            <li><a href="#mongodb">5. Configuration MongoDB</a></li>
+            <li><a href="#projet">6. Déploiement du Projet</a></li>
+            <li><a href="#nginx">7. Configuration Nginx</a></li>
+            <li><a href="#ssl">8. Certificat SSL (HTTPS)</a></li>
+            <li><a href="#pm2">9. Gestion des Processus (PM2)</a></li>
+            <li><a href="#domaine">10. Configuration du Domaine</a></li>
+            <li><a href="#verification">11. Vérification Finale</a></li>
+            <li><a href="#maintenance">12. Maintenance</a></li>
+        </ul>
+    </div>
+
+    <!-- Prerequisites -->
+    <h2 id="prereq">1. Prérequis</h2>
+    
+    <div class="box">
+        <div class="box-title">📦 Ce dont vous avez besoin :</div>
+        <ul>
+            <li><strong>VPS Octenium Advanced</strong> activé avec Ubuntu 22.04</li>
+            <li><strong>Adresse IP</strong> de votre serveur (fournie par Octenium)</li>
+            <li><strong>Mot de passe root</strong> (fourni par email)</li>
+            <li><strong>Nom de domaine</strong> (ex: dawalink.dz) - optionnel au début</li>
+            <li><strong>Terminal SSH</strong> : PuTTY (Windows) ou Terminal (Mac/Linux)</li>
+        </ul>
+    </div>
+
+    <h3>💻 Installer PuTTY (Windows)</h3>
+    <p>Téléchargez PuTTY depuis : <code>https://www.putty.org</code></p>
+
+    <!-- Connection -->
+    <h2 id="connexion">2. Connexion au VPS</h2>
+
+    <h3>Étape 2.1 : Se connecter en SSH</h3>
+    
+    <p><strong>Avec PuTTY (Windows) :</strong></p>
+    <ol>
+        <li>Ouvrez PuTTY</li>
+        <li>Dans "Host Name", entrez l'IP de votre serveur</li>
+        <li>Port : <code>22</code></li>
+        <li>Cliquez "Open"</li>
+        <li>Login : <code>root</code></li>
+        <li>Entrez votre mot de passe</li>
+    </ol>
+
+    <p><strong>Avec Terminal (Mac/Linux) :</strong></p>
+    <pre><code><span class="command">ssh</span> root@VOTRE_IP_SERVEUR</code></pre>
+
+    <div class="success-box">
+        <div class="box-title">✅ Connexion réussie si vous voyez :</div>
+        <code>root@serveur:~#</code>
+    </div>
+
+    <!-- Security -->
+    <h2 id="securite">3. Sécurisation du Serveur</h2>
+
+    <h3>Étape 3.1 : Mettre à jour le système</h3>
+    <pre><code><span class="comment"># Mettre à jour la liste des paquets</span>
+<span class="command">apt update</span>
+
+<span class="comment"># Installer les mises à jour</span>
+<span class="command">apt upgrade -y</span></code></pre>
+
+    <h3>Étape 3.2 : Créer un utilisateur (recommandé)</h3>
+    <pre><code><span class="comment"># Créer un nouvel utilisateur</span>
+<span class="command">adduser</span> dawalink
+
+<span class="comment"># Lui donner les droits sudo</span>
+<span class="command">usermod -aG sudo</span> dawalink</code></pre>
+
+    <h3>Étape 3.3 : Configurer le pare-feu</h3>
+    <pre><code><span class="comment"># Installer et configurer UFW</span>
+<span class="command">apt install ufw -y</span>
+
+<span class="comment"># Autoriser SSH, HTTP, HTTPS</span>
+<span class="command">ufw allow</span> OpenSSH
+<span class="command">ufw allow</span> 80/tcp
+<span class="command">ufw allow</span> 443/tcp
+
+<span class="comment"># Activer le pare-feu</span>
+<span class="command">ufw enable</span>
+
+<span class="comment"># Vérifier le statut</span>
+<span class="command">ufw status</span></code></pre>
+
+    <!-- Installation -->
+    <h2 id="installation" class="page-break">4. Installation des Logiciels</h2>
+
+    <h3>Étape 4.1 : Installer Node.js 20</h3>
+    <pre><code><span class="comment"># Ajouter le repository NodeSource</span>
+<span class="command">curl -fsSL</span> https://deb.nodesource.com/setup_20.x | <span class="command">sudo bash -</span>
+
+<span class="comment"># Installer Node.js</span>
+<span class="command">apt install nodejs -y</span>
+
+<span class="comment"># Vérifier l'installation</span>
+<span class="command">node --version</span>   <span class="comment"># Doit afficher v20.x.x</span>
+<span class="command">npm --version</span>    <span class="comment"># Doit afficher 10.x.x</span></code></pre>
+
+    <h3>Étape 4.2 : Installer Yarn</h3>
+    <pre><code><span class="command">npm install -g yarn</span>
+
+<span class="comment"># Vérifier</span>
+<span class="command">yarn --version</span></code></pre>
+
+    <h3>Étape 4.3 : Installer Python 3.11</h3>
+    <pre><code><span class="comment"># Python est généralement préinstallé sur Ubuntu 22.04</span>
+<span class="command">python3 --version</span>
+
+<span class="comment"># Installer pip et venv</span>
+<span class="command">apt install python3-pip python3-venv -y</span></code></pre>
+
+    <h3>Étape 4.4 : Installer MongoDB 7.0</h3>
+    <pre><code><span class="comment"># Importer la clé GPG de MongoDB</span>
+<span class="command">curl -fsSL</span> https://www.mongodb.org/static/pgp/server-7.0.asc | \
+   <span class="command">gpg -o</span> /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+<span class="comment"># Ajouter le repository</span>
+<span class="command">echo</span> "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | <span class="command">tee</span> /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+<span class="comment"># Mettre à jour et installer</span>
+<span class="command">apt update</span>
+<span class="command">apt install mongodb-org -y</span>
+
+<span class="comment"># Démarrer MongoDB</span>
+<span class="command">systemctl start mongod</span>
+<span class="command">systemctl enable mongod</span>
+
+<span class="comment"># Vérifier le statut</span>
+<span class="command">systemctl status mongod</span></code></pre>
+
+    <h3>Étape 4.5 : Installer Nginx</h3>
+    <pre><code><span class="command">apt install nginx -y</span>
+
+<span class="comment"># Démarrer Nginx</span>
+<span class="command">systemctl start nginx</span>
+<span class="command">systemctl enable nginx</span></code></pre>
+
+    <h3>Étape 4.6 : Installer PM2 (Gestionnaire de processus)</h3>
+    <pre><code><span class="command">npm install -g pm2</span></code></pre>
+
+    <h3>Étape 4.7 : Installer Git</h3>
+    <pre><code><span class="command">apt install git -y</span></code></pre>
+
+    <!-- MongoDB Config -->
+    <h2 id="mongodb">5. Configuration MongoDB</h2>
+
+    <h3>Étape 5.1 : Créer un utilisateur admin</h3>
+    <pre><code><span class="comment"># Se connecter à MongoDB</span>
+<span class="command">mongosh</span>
+
+<span class="comment"># Dans le shell MongoDB :</span>
+use admin
+db.createUser({
+  user: "dawalinkAdmin",
+  pwd: "VOTRE_MOT_DE_PASSE_SECURISE",
+  roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+})
+
+<span class="comment"># Créer la base de données DawaLink</span>
+use dawalink
+db.createUser({
+  user: "dawalinkUser",
+  pwd: "AUTRE_MOT_DE_PASSE_SECURISE",
+  roles: [ { role: "readWrite", db: "dawalink" } ]
+})
+
+<span class="comment"># Quitter</span>
+exit</code></pre>
+
+    <div class="warning-box">
+        <div class="box-title">⚠️ Important</div>
+        <p>Notez bien les mots de passe ! Vous en aurez besoin pour la configuration.</p>
+    </div>
+
+    <!-- Project Deployment -->
+    <h2 id="projet" class="page-break">6. Déploiement du Projet</h2>
+
+    <h3>Étape 6.1 : Créer le dossier du projet</h3>
+    <pre><code><span class="command">mkdir -p</span> /var/www/dawalink
+<span class="command">cd</span> /var/www/dawalink</code></pre>
+
+    <h3>Étape 6.2 : Transférer les fichiers</h3>
+    
+    <p><strong>Option A : Via Git (si le code est sur GitHub)</strong></p>
+    <pre><code><span class="command">git clone</span> https://github.com/VOTRE_USERNAME/dawalink.git .</code></pre>
+
+    <p><strong>Option B : Via SFTP/SCP</strong></p>
+    <p>Utilisez FileZilla ou WinSCP pour transférer les fichiers vers <code>/var/www/dawalink</code></p>
+
+    <h3>Étape 6.3 : Installer les dépendances Frontend</h3>
+    <pre><code><span class="command">cd</span> /var/www/dawalink
+<span class="command">yarn install</span></code></pre>
+
+    <h3>Étape 6.4 : Construire le Frontend</h3>
+    <pre><code><span class="command">yarn build</span></code></pre>
+
+    <h3>Étape 6.5 : Configurer le Backend</h3>
+    <pre><code><span class="comment"># Créer l'environnement virtuel Python</span>
+<span class="command">cd</span> /var/www/dawalink/backend
+<span class="command">python3 -m venv</span> venv
+
+<span class="comment"># Activer l'environnement</span>
+<span class="command">source</span> venv/bin/activate
+
+<span class="comment"># Installer les dépendances</span>
+<span class="command">pip install</span> -r requirements.txt</code></pre>
+
+    <h3>Étape 6.6 : Créer le fichier .env Backend</h3>
+    <pre><code><span class="command">nano</span> /var/www/dawalink/backend/.env</code></pre>
+
+    <p>Contenu du fichier :</p>
+    <pre><code>MONGO_URL=mongodb://dawalinkUser:VOTRE_MOT_DE_PASSE@localhost:27017/dawalink
+DB_NAME=dawalink
+JWT_SECRET=GENEREZ_UNE_CLE_SECRETE_LONGUE_ET_ALEATOIRE</code></pre>
+
+    <div class="box">
+        <div class="box-title">💡 Générer une clé secrète</div>
+        <pre><code><span class="command">openssl rand -hex</span> 32</code></pre>
+    </div>
+
+    <!-- Nginx -->
+    <h2 id="nginx">7. Configuration Nginx</h2>
+
+    <h3>Étape 7.1 : Créer la configuration DawaLink</h3>
+    <pre><code><span class="command">nano</span> /etc/nginx/sites-available/dawalink</code></pre>
+
+    <p>Contenu du fichier :</p>
+    <pre><code>server {
+    listen 80;
+    server_name dawalink.dz www.dawalink.dz;  <span class="comment"># Remplacez par votre domaine</span>
+
+    <span class="comment"># Frontend (fichiers statiques)</span>
+    location / {
+        root /var/www/dawalink/build;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    <span class="comment"># API Backend</span>
+    location /api {
+        proxy_pass http://127.0.0.1:8001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}</code></pre>
+
+    <h3>Étape 7.2 : Activer la configuration</h3>
+    <pre><code><span class="comment"># Créer le lien symbolique</span>
+<span class="command">ln -s</span> /etc/nginx/sites-available/dawalink /etc/nginx/sites-enabled/
+
+<span class="comment"># Supprimer la config par défaut</span>
+<span class="command">rm</span> /etc/nginx/sites-enabled/default
+
+<span class="comment"># Tester la configuration</span>
+<span class="command">nginx -t</span>
+
+<span class="comment"># Redémarrer Nginx</span>
+<span class="command">systemctl restart nginx</span></code></pre>
+
+    <!-- SSL -->
+    <h2 id="ssl" class="page-break">8. Certificat SSL (HTTPS)</h2>
+
+    <h3>Étape 8.1 : Installer Certbot</h3>
+    <pre><code><span class="command">apt install certbot python3-certbot-nginx -y</span></code></pre>
+
+    <h3>Étape 8.2 : Obtenir le certificat</h3>
+    <pre><code><span class="command">certbot --nginx -d</span> dawalink.dz <span class="command">-d</span> www.dawalink.dz</code></pre>
+
+    <p>Suivez les instructions et entrez votre email.</p>
+
+    <h3>Étape 8.3 : Renouvellement automatique</h3>
+    <pre><code><span class="comment"># Tester le renouvellement</span>
+<span class="command">certbot renew --dry-run</span></code></pre>
+
+    <div class="success-box">
+        <div class="box-title">✅ Le certificat se renouvellera automatiquement !</div>
+    </div>
+
+    <!-- PM2 -->
+    <h2 id="pm2">9. Gestion des Processus (PM2)</h2>
+
+    <h3>Étape 9.1 : Créer le fichier de configuration PM2</h3>
+    <pre><code><span class="command">nano</span> /var/www/dawalink/ecosystem.config.js</code></pre>
+
+    <p>Contenu :</p>
+    <pre><code>module.exports = {
+  apps: [
+    {
+      name: 'dawalink-backend',
+      cwd: '/var/www/dawalink/backend',
+      script: 'venv/bin/uvicorn',
+      args: 'server:app --host 0.0.0.0 --port 8001',
+      interpreter: 'none',
+      env: {
+        NODE_ENV: 'production'
+      }
+    }
+  ]
+};</code></pre>
+
+    <h3>Étape 9.2 : Démarrer l'application</h3>
+    <pre><code><span class="command">cd</span> /var/www/dawalink
+<span class="command">pm2 start</span> ecosystem.config.js
+
+<span class="comment"># Vérifier le statut</span>
+<span class="command">pm2 status</span>
+
+<span class="comment"># Voir les logs</span>
+<span class="command">pm2 logs</span></code></pre>
+
+    <h3>Étape 9.3 : Configurer le démarrage automatique</h3>
+    <pre><code><span class="comment"># Sauvegarder la configuration</span>
+<span class="command">pm2 save</span>
+
+<span class="comment"># Configurer le démarrage au boot</span>
+<span class="command">pm2 startup</span></code></pre>
+
+    <!-- Domain -->
+    <h2 id="domaine">10. Configuration du Domaine</h2>
+
+    <h3>Chez votre registrar de domaine :</h3>
+    
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Nom</th>
+            <th>Valeur</th>
+            <th>TTL</th>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>@</td>
+            <td>VOTRE_IP_SERVEUR</td>
+            <td>3600</td>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>www</td>
+            <td>VOTRE_IP_SERVEUR</td>
+            <td>3600</td>
+        </tr>
+    </table>
+
+    <div class="warning-box">
+        <div class="box-title">⏳ Propagation DNS</div>
+        <p>Les changements DNS peuvent prendre jusqu'à 24-48 heures pour se propager.</p>
+    </div>
+
+    <!-- Verification -->
+    <h2 id="verification" class="page-break">11. Vérification Finale</h2>
+
+    <h3>Checklist de vérification :</h3>
+    <pre><code><span class="comment"># 1. Vérifier MongoDB</span>
+<span class="command">systemctl status mongod</span>
+
+<span class="comment"># 2. Vérifier Nginx</span>
+<span class="command">systemctl status nginx</span>
+
+<span class="comment"># 3. Vérifier le backend</span>
+<span class="command">pm2 status</span>
+
+<span class="comment"># 4. Tester l'API</span>
+<span class="command">curl</span> http://localhost:8001/api/health
+
+<span class="comment"># 5. Tester depuis l'extérieur</span>
+<span class="comment"># Ouvrez https://dawalink.dz dans votre navigateur</span></code></pre>
+
+    <div class="success-box">
+        <div class="box-title">✅ Tout fonctionne si :</div>
+        <ul>
+            <li>MongoDB : <code>active (running)</code></li>
+            <li>Nginx : <code>active (running)</code></li>
+            <li>PM2 : <code>online</code></li>
+            <li>API : <code>{"status":"ok","database":"connected"}</code></li>
+            <li>Site accessible via HTTPS</li>
+        </ul>
+    </div>
+
+    <!-- Maintenance -->
+    <h2 id="maintenance">12. Maintenance</h2>
+
+    <h3>Commandes utiles :</h3>
+    
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Commande</th>
+        </tr>
+        <tr>
+            <td>Voir les logs backend</td>
+            <td><code>pm2 logs dawalink-backend</code></td>
+        </tr>
+        <tr>
+            <td>Redémarrer le backend</td>
+            <td><code>pm2 restart dawalink-backend</code></td>
+        </tr>
+        <tr>
+            <td>Voir les logs Nginx</td>
+            <td><code>tail -f /var/log/nginx/error.log</code></td>
+        </tr>
+        <tr>
+            <td>Redémarrer Nginx</td>
+            <td><code>systemctl restart nginx</code></td>
+        </tr>
+        <tr>
+            <td>Redémarrer MongoDB</td>
+            <td><code>systemctl restart mongod</code></td>
+        </tr>
+        <tr>
+            <td>Mettre à jour le code</td>
+            <td><code>cd /var/www/dawalink && git pull && yarn build && pm2 restart all</code></td>
+        </tr>
+        <tr>
+            <td>Sauvegarder la BDD</td>
+            <td><code>mongodump --db dawalink --out /backup/</code></td>
+        </tr>
+    </table>
+
+    <h3>Sauvegardes automatiques :</h3>
+    <pre><code><span class="comment"># Créer un script de sauvegarde</span>
+<span class="command">nano</span> /usr/local/bin/backup-dawalink.sh</code></pre>
+
+    <p>Contenu :</p>
+    <pre><code>#!/bin/bash
+DATE=$(date +%Y%m%d)
+mongodump --db dawalink --out /backup/dawalink-$DATE
+find /backup -mtime +7 -delete  <span class="comment"># Supprimer les backups > 7 jours</span></code></pre>
+
+    <pre><code><span class="comment"># Rendre exécutable et planifier</span>
+<span class="command">chmod +x</span> /usr/local/bin/backup-dawalink.sh
+<span class="command">crontab -e</span>
+
+<span class="comment"># Ajouter cette ligne pour une sauvegarde quotidienne à 3h du matin</span>
+0 3 * * * /usr/local/bin/backup-dawalink.sh</code></pre>
+
+    <!-- Support -->
+    <div class="box" style="margin-top: 40px;">
+        <div class="box-title">📞 Besoin d'aide ?</div>
+        <p>Si vous rencontrez des problèmes lors du déploiement, n'hésitez pas à me contacter avec :</p>
+        <ul>
+            <li>Le message d'erreur exact</li>
+            <li>L'étape où vous êtes bloqué</li>
+            <li>Les logs pertinents</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p><strong>Guide de Déploiement DawaLink</strong></p>
+        <p>Version 1.0 - Février 2025</p>
+        <p>Marketplace B2B Pharmaceutique - Algérie</p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+I need you to completely rebuild and make fully functional the database and backend of this DawaLink pharmaceutical marketplace. Here's what I need:
+
+## CORE REQUIREMENTS
+
+1. **DATABASE REVIEW**: Audit all tables (profiles, pharmacies, suppliers, products, agents, orders, documents, reviews). Add any missing tables like cart, notifications, messages, order_items, favorites. Add missing columns referenced in frontend. Add indexes for performance.
+
+2. **RLS POLICIES**: Create comprehensive Row Level Security policies for ALL tables. Admins see everything, pharmacies see their own data + all products/suppliers, suppliers see their own data + relevant orders. Use auth.uid() for checks. Every table MUST have policies for SELECT, INSERT, UPDATE, DELETE.
+
+3. **AUTHENTICATION**: Ensure login/registration works for all user types (admin, pharmacy, supplier). New users should have "pending" status. Email confirmation is DISABLED. Session management must persist.
+
+4. **ADMIN FEATURES**: View pending registrations, approve/reject pharmacies and suppliers, view all users, suspend/activate accounts, view/approve documents, platform statistics, search/filter users.
+
+5. **PHARMACY FEATURES**: View approval status, search products (by name/DCI/reference), filter products, view details, add to cart, place orders, view order history, track status, view supplier contacts, rate suppliers, manage profile, upload documents.
+
+6. **SUPPLIER FEATURES**: View approval status, add/edit/delete products (name, reference, DCI, price, UG, availability), manage agents (add/edit/delete with contact info), view/manage incoming orders, update order status, view analytics, view reviews, manage profile, upload documents.
+
+7. **MAKE ALL BUTTONS WORK**: Go through EVERY component. Every button must either:
+   - Work with proper backend functionality, OR
+   - Show a toast/popup: "Cette fonctionnalité est en cours de développement"
+
+   Use a consistent toast component across the app.
+
+8. **COMPLETE WORKFLOWS**:
+   - Registration → Admin approval → Active account
+   - Product search → Add to cart → Place order → Supplier confirms → Complete
+   - Pharmacy rates supplier after order completion
+   - Document upload → Admin reviews → Approve/reject
+
+9. **SEED DATA**: Create test data with:
+   - 3 admins, 10 pharmacies (mixed status), 10 suppliers (mixed status)
+   - 50+ products, 5+ agents per supplier, 20+ orders, 10+ reviews
+   - Test accounts: admin@dawalink.dz/admin123, pharmacy1@sante.dz/pharmacy123, supplier1@pharmaplus.dz/supplier123
+
+10. **ERROR HANDLING**: Proper try-catch everywhere, user-friendly French error messages, handle network failures, RLS permission denied, duplicates, validation errors.
+
+## CRITICAL RULES
+
+- Use existing Supabase instance (credentials in .env)
+- All user-facing text in French
+- Migrations must have detailed markdown comments
+- NEVER use BEGIN/COMMIT/ROLLBACK (except in DO $$ blocks)
+- ALWAYS use IF EXISTS/IF NOT EXISTS
+- Test after each major change
+- Run `npm run build` at the end to verify
+
+## SUCCESS CRITERIA
+
+✓ All tables have RLS policies
+✓ All user types can register/login
+✓ Admin approval workflow works
+✓ Pharmacy can search/order products
+✓ Supplier can manage products/agents/orders
+✓ Order flow works end-to-end
+✓ Reviews work
+✓ Every button works or shows "under development"
+✓ No console errors
+✓ Build succeeds
+
+Please implement this systematically. Start with database audit, then RLS policies, then authentication, then feature implementation, then testing. Let's make this platform fully functional!

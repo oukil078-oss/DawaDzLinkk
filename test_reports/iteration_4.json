@@ -1,0 +1,129 @@
+{
+  "summary": "Comprehensive testing of DawaLink Document Upload & Admin Review features completed. All 12 backend API tests passed, frontend registration flow with document upload verified, admin dashboard pending users with documents display working, reject modal with reason and document checkboxes functional, login rejection info display confirmed.",
+
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+
+  "passed_tests": [
+    "Backend: POST /api/upload/temp-document returns doc_id, stored_name - PASS",
+    "Backend: GET /api/documents/file/{stored_name} returns file - PASS", 
+    "Backend: POST /api/auth/register/pharmacy accepts document_ids array - PASS",
+    "Backend: POST /api/auth/register/supplier accepts document_ids array - PASS",
+    "Backend: GET /api/admin/users/pending includes documents array per user - PASS",
+    "Backend: PUT /api/admin/users/{user_id}/review approve flow - PASS",
+    "Backend: PUT /api/admin/users/{user_id}/review reject with reason and documents - PASS",
+    "Backend: Login rejected user returns 403 with rejection_info - PASS",
+    "Backend: Re-registration with same email after rejection - PASS",
+    "Backend: GET /api/admin/users/{user_id}/documents returns user's documents - PASS",
+    "Backend: Invalid file format upload rejection - PASS",
+    "Backend: 404 for non-existent document file - PASS",
+    "Frontend: Landing page with Je suis Pharmacie/Fournisseur buttons - PASS",
+    "Frontend: Registration Step 1 (Informations) form - PASS",
+    "Frontend: Registration Step 2 (Documents) with 3 required docs (Pharmacy: Agrément de pharmacie, Registre de Commerce, Inscription à l'ordre des pharmaciens) - PASS",
+    "Frontend: Document upload buttons with Télécharger labels - PASS",
+    "Frontend: Admin Dashboard login and navigation - PASS",
+    "Frontend: Admin pending users page shows Documents soumis section with document links - PASS",
+    "Frontend: Admin reject button opens modal with rejection reason textarea - PASS",
+    "Frontend: Admin reject modal has document checkboxes - PASS",
+    "Frontend: Login page shows rejection info (Compte rejeté, Raison, Document(s) concerné(s)) - PASS",
+    "Frontend: Login page has Se réinscrire avec de nouveaux documents button - PASS"
+  ],
+
+  "test_report_links": [
+    "/app/backend/tests/test_document_upload_review.py",
+    "/app/test_reports/pytest/pytest_document_review.xml"
+  ],
+
+  "action_items": [],
+
+  "critical_code_review_comments": [
+    "All 12 requested features are implemented and working correctly",
+    "Backend APIs properly handle document upload, linking to users, and admin review flow",
+    "Frontend RegistrationFlow.tsx has 3-step wizard (Informations -> Documents -> Vérification)",
+    "Admin NewAdminDashboard.tsx shows pending users with documents and has full reject modal",
+    "LoginPage.tsx correctly displays structured rejection info with reason and rejected documents",
+    "Email sending is logged (RESEND_API_KEY not configured) but notification stored in DB"
+  ],
+
+  "updated_files": [],
+
+  "success_rate": {
+    "backend": "100% (12/12 tests passed)",
+    "frontend": "100% (all UI flows verified)"
+  },
+
+  "test_credentials": {
+    "admin": "admin@dawalink.dz / admin123456",
+    "rejected_user": "test_loginreject_d2c1b2dc@test.dz / testpassword123"
+  },
+
+  "seed_data_creation": "Multiple test users created during backend testing with documents uploaded, some approved, some rejected",
+
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+
+  "context_for_next_testing_agent": "Document upload/review feature fully tested. Backend tests in /app/backend/tests/test_document_upload_review.py cover all CRUD operations. Frontend tested via Playwright for registration flow, admin pending users page with documents, reject modal, and login rejection info display. All features working correctly - no issues found.",
+
+  "features_tested": {
+    "document_upload_endpoint": {
+      "status": "PASS",
+      "details": "POST /api/upload/temp-document accepts file + doc_type, returns doc_id, stored_name"
+    },
+    "document_file_serving": {
+      "status": "PASS",
+      "details": "GET /api/documents/file/{stored_name} returns the uploaded file"
+    },
+    "registration_with_documents": {
+      "status": "PASS",
+      "details": "Both pharmacy and supplier registration accept document_ids array and link documents to user"
+    },
+    "admin_pending_users_with_documents": {
+      "status": "PASS",
+      "details": "GET /api/admin/users/pending returns users with documents array containing doc_type, file_name, stored_name, status"
+    },
+    "admin_review_endpoint": {
+      "status": "PASS",
+      "details": "PUT /api/admin/users/{user_id}/review with approved/rejected decision, rejection_reason, rejected_documents"
+    },
+    "rejected_user_login": {
+      "status": "PASS",
+      "details": "403 response with structured error containing rejection_info (rejection_reason, rejected_documents, reviewed_at)"
+    },
+    "re_registration": {
+      "status": "PASS",
+      "details": "Registering with same email after rejection overwrites the rejected account"
+    },
+    "admin_get_user_documents": {
+      "status": "PASS",
+      "details": "GET /api/admin/users/{user_id}/documents returns user's documents list"
+    },
+    "frontend_registration_document_step": {
+      "status": "PASS",
+      "details": "Step 2 shows 3 required documents with Télécharger buttons (Agrément de pharmacie, Registre de Commerce, Inscription à l'ordre des pharmaciens for pharmacy)"
+    },
+    "frontend_admin_pending_documents": {
+      "status": "PASS",
+      "details": "Admin pending users section shows 'Documents soumis (N)' with document links and download icons"
+    },
+    "frontend_admin_reject_modal": {
+      "status": "PASS",
+      "details": "Reject button opens modal with rejection reason textarea and document checkboxes"
+    },
+    "frontend_login_rejection_display": {
+      "status": "PASS",
+      "details": "Login page shows structured rejection info with Compte rejeté header, Raison, Document(s) concerné(s), and Se réinscrire button"
+    }
+  },
+
+  "mocked_apis": {
+    "email_sending": "Email sending via Resend API is NOT MOCKED but RESEND_API_KEY is not configured, so emails are logged to console and stored in notifications collection instead of being sent"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "DawaDzLink - Marketplace B2B Pharmaceutique",
+  "short_name": "DawaDzLink",
+  "description": "Marketplace B2B pharmaceutique en Algérie connectant fournisseurs et pharmacies.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#009689",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "medical"],
+  "screenshots": []
+}

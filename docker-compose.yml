@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: dawadzlink-mongodb
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - dawadzlink-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: dawadzlink-backend
+    restart: always
+    ports:
+      - "8001:8001"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017
+      - DB_NAME=dawalink
+      - JWT_SECRET=${JWT_SECRET:-votre_secret_key_tres_securise_2024}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - RESEND_API_KEY=re_E8pd2tUe_MabszNDLGXcZ77ayVVakVbFs
+    depends_on:
+      - mongodb
+    networks:
+      - dawadzlink-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        - VITE_REACT_APP_BACKEND_URL=${BACKEND_URL:-http://localhost:8001}
+    container_name: dawadzlink-frontend
+    restart: always
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+    networks:
+      - dawadzlink-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      - "traefik.http.services.dawadzlink-frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.dawadzlink-main.rule=Host(`dawadzlink.com`) || Host(`www.dawadzlink.com`)"
+      - "traefik.http.routers.dawadzlink-main.entrypoints=websecure"
+      - "traefik.http.routers.dawadzlink-main.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dawadzlink-main.service=dawadzlink-frontend"
+      - "traefik.http.routers.dawadzlink-admin.rule=Host(`admin.dawadzlink.com`)"
+      - "traefik.http.routers.dawadzlink-admin.entrypoints=websecure"
+      - "traefik.http.routers.dawadzlink-admin.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dawadzlink-admin.service=dawadzlink-frontend"
+      - "traefik.http.routers.dawadzlink-pharmacy.rule=Host(`pharmacy.dawadzlink.com`)"
+      - "traefik.http.routers.dawadzlink-pharmacy.entrypoints=websecure"
+      - "traefik.http.routers.dawadzlink-pharmacy.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dawadzlink-pharmacy.service=dawadzlink-frontend"
+      - "traefik.http.routers.dawadzlink-supplier.rule=Host(`supplier.dawadzlink.com`)"
+      - "traefik.http.routers.dawadzlink-supplier.entrypoints=websecure"
+      - "traefik.http.routers.dawadzlink-supplier.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.dawadzlink-supplier.service=dawadzlink-frontend"
+      - "traefik.http.routers.dawadzlink-http.rule=Host(`dawadzlink.com`) || Host(`www.dawadzlink.com`) || Host(`admin.dawadzlink.com`) || Host(`pharmacy.dawadzlink.com`) || Host(`supplier.dawadzlink.com`)"
+      - "traefik.http.routers.dawadzlink-http.entrypoints=web"
+      - "traefik.http.routers.dawadzlink-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+volumes:
+  mongodb_data:
+
+networks:
+  dawadzlink-network:
+    driver: bridge
+  dokploy-network:
+    external: true
