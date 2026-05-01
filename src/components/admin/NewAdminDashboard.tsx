@@ -214,7 +214,7 @@ export function NewAdminDashboard({ onLogout }: NewAdminDashboardProps) {
     }
   };
 
-  const SUPER_ADMIN_EMAIL = 'zakaryaoukil2003@gmail.com';
+  const SUPER_ADMIN_EMAIL = 'admin@dawalink.dz';
   const isSuperAdmin = user?.email === SUPER_ADMIN_EMAIL;
 
   const navItems = [

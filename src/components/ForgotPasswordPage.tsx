@@ -25,7 +25,7 @@ export function ForgotPasswordPage({ userType, onBack, onGoToLogin }: ForgotPass
   const [resendCooldown, setResendCooldown] = useState(0);
   const codeInputs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const title = userType === 'pharmacy' ? 'Pharmacie' : 'Fournisseur';
+  const title = userType === 'admin' ? 'Administrateur' : userType === 'pharmacy' ? 'Pharmacie' : 'Fournisseur';
 
   // Cooldown timer for resend
   useEffect(() => {

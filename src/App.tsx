@@ -133,9 +133,25 @@ function App() {
         </div>
       );
     }
+    if (authState === 'forgot-password') {
+      return (
+        <div className="page-transition">
+          <ForgotPasswordPage
+            userType="admin"
+            onBack={() => setAuthState('login')}
+            onGoToLogin={() => setAuthState('login')}
+          />
+        </div>
+      );
+    }
     return (
       <div className="page-transition">
-        <AdminLogin onLoginSuccess={handleLoginSuccess} onBack={() => {}} isSubdomain />
+        <AdminLogin 
+          onLoginSuccess={handleLoginSuccess} 
+          onBack={() => {}} 
+          onForgotPassword={() => setAuthState('forgot-password')}
+          isSubdomain 
+        />
       </div>
     );
   }

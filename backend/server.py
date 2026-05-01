@@ -1742,8 +1742,8 @@ async def send_new_order_email_to_supplier(to_email: str, supplier_contact_name:
 # SUPER ADMIN - ADMIN MANAGEMENT ENDPOINTS
 # ==========================================
 
-SUPER_ADMIN_EMAIL = "zakaryaoukil2003@gmail.com"
-SUPER_ADMIN_PASSWORD = "oukil2003"  # Only for reference, do not use in code except for credential checks if needed
+SUPER_ADMIN_EMAIL = "admin@dawalink.dz"
+SUPER_ADMIN_PASSWORD = "admin123456"  # Only for reference, do not use in code except for credential checks if needed
 
 class CreateAdminRequest(BaseModel):
     email: EmailStr

@@ -5,10 +5,11 @@ import { useAuth } from '../contexts/AuthContext';
 interface AdminLoginProps {
   onLoginSuccess: () => void;
   onBack: () => void;
+  onForgotPassword?: () => void;
   isSubdomain?: boolean;
 }
 
-export function AdminLogin({ onLoginSuccess, onBack, isSubdomain }: AdminLoginProps) {
+export function AdminLogin({ onLoginSuccess, onBack, onForgotPassword, isSubdomain }: AdminLoginProps) {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -103,6 +104,17 @@ export function AdminLogin({ onLoginSuccess, onBack, isSubdomain }: AdminLoginPr
                   autoComplete="current-password"
                 />
               </div>
+              {onForgotPassword && (
+                <div className="mt-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={onForgotPassword}
+                    className="text-sm text-purple-600 hover:text-purple-800 transition-colors"
+                  >
+                    Mot de passe oublié ?
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Submit Button */}

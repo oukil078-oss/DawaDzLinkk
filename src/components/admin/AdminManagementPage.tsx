@@ -4,7 +4,7 @@ import { adminApi } from '../../lib/api';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 
-const SUPER_ADMIN_EMAIL = 'zakaryaoukil2003@gmail.com';
+const SUPER_ADMIN_EMAIL = 'admin@dawalink.dz';
 
 interface AdminUser {
   id: string;
